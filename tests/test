@@ -5,7 +5,7 @@ import os
 # Agregamos 'src' al path para poder importar los módulos
 sys.path.append(os.path.abspath("src"))
 
-from modelos import Paciente , Medico, Especialidad
+from src.modelos import Paciente, Medico, Especialidad
 
 class TestPaciente(unittest.TestCase):
     def test_str(self):

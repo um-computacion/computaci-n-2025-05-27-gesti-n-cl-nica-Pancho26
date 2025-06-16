@@ -1,6 +1,6 @@
 
 from clinica import Clinica
-from .modelos import Pacientes, Medico, Especialidad
+from .modelos import Paciente, Medico, Especialidad
 from datetime import datetime
 
 def mostrar_menu():
@@ -27,7 +27,7 @@ def main():
             nombre = input("Nombre del paciente: ")
             dni = input("DNI: ")
             fecha = input("Fecha de nacimiento (dd/mm/aaaa): ")
-            paciente = Pacientes(nombre, dni, fecha)
+            paciente = Paciente(nombre, dni, fecha)
             clinica.agregar_paciente(paciente)
             print("Paciente agregado.")
             continue
