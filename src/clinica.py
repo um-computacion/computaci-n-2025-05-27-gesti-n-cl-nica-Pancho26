@@ -1,3 +1,4 @@
+
 from modelo import Paciente, Medico, Turno, Receta, HistoriaClinica
 from exepciones import (
     PacienteNoEncontrado,
@@ -77,3 +78,4 @@ class Clinica:
 
     def obtener_historia_clinica(self, dni):
         return self.historias.get(dni)
+
