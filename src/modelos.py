@@ -1,88 +1,103 @@
 from datetime import datetime
 
 class Paciente:
-    def __init__(self, nombre, dni, fecha_nacimiento):
-        self.nombre = nombre
-        self.dni = dni
-        self.fecha_nacimiento = fecha_nacimiento
+    def __init__(self, nombre: str, dni: str, fecha_nacimiento: str):
+        self.__nombre__ = nombre
+        self.__dni__ = dni
+        self.__fecha_nacimiento__ = fecha_nacimiento
 
-    def __str__(self):
-        return f"{self.nombre} (DNI: {self.dni})"
+    def obtener_dni(self) -> str:
+        return self.__dni__
 
+    def __str__(self) -> str:
+        return f"{self.__nombre__} (DNI: {self.__dni__}, Nacimiento: {self.__fecha_nacimiento__})"
 
 class Especialidad:
-    def __init__(self, tipo, dias):
-        self.tipo = tipo
-        self.dias = [dia.lower() for dia in dias]
+    def __init__(self, tipo: str, dias: list[str]):
+        self.__tipo__ = tipo
+        self.__dias__ = [d.lower() for d in dias]
 
-    def verifica_dia(self, dia):
-        return dia.lower() in self.dias
+    def obtener_especialidad(self) -> str:
+        return self.__tipo__
 
-    def __str__(self):
-        return f"{self.tipo} (Días: {', '.join(self.dias)})"
+    def verificar_dia(self, dia: str) -> bool:
+        return dia.lower() in self.__dias__
 
+    def __str__(self) -> str:
+        dias_str = ", ".join(self.__dias__)
+        return f"{self.__tipo__} (Días: {dias_str})"
 
 class Medico:
-    def __init__(self, nombre, matricula):
-        self.nombre = nombre
-        self.matricula = matricula
-        self.especialidades = []
+    def __init__(self, nombre: str, matricula: str):
+        self.__nombre__ = nombre
+        self.__matricula__ = matricula
+        self.__especialidades__ = []
 
-    def agregar_especialidad(self, especialidad):
-        self.especialidades.append(especialidad)
+    def agregar_especialidad(self, especialidad: Especialidad):
+        self.__especialidades__.append(especialidad)
 
-    def especialidad_en_dia(self, dia):
-        for e in self.especialidades:
-            if e.verifica_dia(dia):
-                return e.tipo
+    def obtener_matricula(self) -> str:
+        return self.__matricula__
+
+    def obtener_especialidad_para_dia(self, dia: str):
+        for esp in self.__especialidades__:
+            if esp.verificar_dia(dia):
+                return esp.obtener_especialidad()
         return None
 
-    def __str__(self):
-        esp = "\n  - ".join(str(e) for e in self.especialidades)
-        return f"{self.nombre} (Matrícula: {self.matricula})\n  - {esp}"
-
+    def __str__(self) -> str:
+        especialidades = "; ".join(str(e) for e in self.__especialidades__)
+        return f"{self.__nombre__} (Matrícula: {self.__matricula__}) - Especialidades: {especialidades}"
 
 class Turno:
-    def __init__(self, paciente, medico, fecha_hora, especialidad):
-        self.paciente = paciente
-        self.medico = medico
-        self.fecha_hora = fecha_hora
-        self.especialidad = especialidad
+    def __init__(self, paciente, medico, fecha_hora: datetime, especialidad: str):
+        self.__paciente__ = paciente
+        self.__medico__ = medico
+        self.__fecha_hora__ = fecha_hora
+        self.__especialidad__ = especialidad
+
+    def obtener_medico(self):
+        return self.__medico__
+
+    def obtener_fecha_hora(self):
+        return self.__fecha_hora__
 
     def __str__(self):
-        fecha = self.fecha_hora.strftime('%d/%m/%Y %H:%M')
-        return f"Turno: {self.paciente.nombre} con {self.medico.nombre} - {self.especialidad} - {fecha}"
-
+        return (f"Turno: {self.__fecha_hora__} - Paciente: {self.__paciente__} - "
+                f"Médico: {self.__medico__} - Especialidad: {self.__especialidad__}")
 
 class Receta:
-    def __init__(self, paciente, medico, medicamentos):
-        self.paciente = paciente
-        self.medico = medico
-        self.medicamentos = medicamentos
-        self.fecha = datetime.now()
+    def __init__(self, paciente, medico, medicamentos: list[str]):
+        self.__paciente__ = paciente
+        self.__medico__ = medico
+        self.__medicamentos__ = medicamentos
+        self.__fecha__ = datetime.now()
 
     def __str__(self):
-        meds = ", ".join(self.medicamentos)
-        return f"Receta para {self.paciente.nombre} - Médico: {self.medico.nombre} - Medicamentos: {meds} - Fecha: {self.fecha.strftime('%d/%m/%Y')}"
-
+        meds = ", ".join(self.__medicamentos__)
+        return (f"Receta ({self.__fecha__:%d/%m/%Y}): {self.__paciente__} - "
+                f"Médico: {self.__medico__} - Medicamentos: {meds}")
 
 class HistoriaClinica:
     def __init__(self, paciente):
-        self.paciente = paciente
-        self.turnos = []
-        self.recetas = []
+        self.__paciente__ = paciente
+        self.__turnos__ = []
+        self.__recetas__ = []
 
     def agregar_turno(self, turno):
-        self.turnos.append(turno)
+        self.__turnos__.append(turno)
 
     def agregar_receta(self, receta):
-        self.recetas.append(receta)
+        self.__recetas__.append(receta)
+
+    def obtener_turnos(self):
+        return list(self.__turnos__)
+
+    def obtener_recetas(self):
+        return list(self.__recetas__)
 
     def __str__(self):
-        texto = f"Historia Clínica de {self.paciente.nombre}\n\nTurnos:\n"
-        for turno in self.turnos:
-            texto += f"- {turno}\n"
-        texto += "\nRecetas:\n"
-        for receta in self.recetas:
-            texto += f"- {receta}\n"
-        return texto
+        turnos = "\n".join(str(t) for t in self.__turnos__)
+        recetas = "\n".join(str(r) for r in self.__recetas__)
+        return (f"Historia clínica de {self.__paciente__}\n"
+                f"Turnos:\n{turnos}\nRecetas:\n{recetas}")
