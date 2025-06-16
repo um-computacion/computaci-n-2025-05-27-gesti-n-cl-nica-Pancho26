@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 
-# Agregamos 'src' al path para poder importar los módulos
+
 sys.path.append(os.path.abspath("src"))
 
 from src.modelos import Paciente, Medico, Especialidad

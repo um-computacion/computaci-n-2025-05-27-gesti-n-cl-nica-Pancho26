@@ -1,5 +1,5 @@
 
-from clinica import Clinica
+from .clinica import Clinica
 from .modelos import Paciente, Medico, Especialidad
 from datetime import datetime
 

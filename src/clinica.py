@@ -1,4 +1,4 @@
-from modelos import Paciente, Medico, Turno, Receta, HistoriaClinica
+from .modelos import Paciente, Medico, Turno, Receta, HistoriaClinica
 from exepciones import (
     PacienteNoEncontrado,
     MedicoNoEncontrado,
